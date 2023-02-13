@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+#wrap{
+	width:1200px;
+	height:800px;
+	margin:auto;
+}
+
+section{
+/* 	width:800px;
+	height:600px;*/
+	margin:auto;
+}
+
+section > .image {
+	width:400px;
+	
+}
+
+
+.signinsection > .signin-insert{
+	width:350px;
+	height:400px;
+	border:1px solid;
+	
+}
+
+.signinsection > .signup{
+	height:80px;
+	width:350px;
+	border:1px solid;
+}
+
+.signin-box{
+	width:300px;
+}
+
+.signup-box{
+	width:300px;
+}
+
+
+.signup-insert{
+	width:380px;
+	height:500px;
+	border:1px solid;
+	
+}
