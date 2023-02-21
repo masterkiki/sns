@@ -58,8 +58,7 @@
 					</div>
 					
 					<div class="like-box d-flex  p-2 ">
-						<i class="bi bi-suit-heart mr-2"></i>
-						<i class="bi bi-chat mr-2"></i> <b>좋아요 11개</b>
+						<i class="bi bi-suit-heart mr-2 heartBtn" data-post-id="${post.id }"></i> 좋아요 11개
 					</div>
 			
 					<div class=" p-2">
@@ -77,8 +76,8 @@
 							<div><b>조세호</b> 우왕2</div>							
 							
 							<div class="d-flex">
-								<input type="text" class="form-control ">
-								<button type="button" class="btn btn-info ">게시</button>
+								<input type="text" class="form-control" id="comment-content" value="${post.id }">
+								<button type="button" class="btn btn-info" id="post">게시</button>
 							</div>
 					</div>
 					<%-- /댓글 들 --%>
@@ -139,10 +138,46 @@
 	<script>
 		$(document).ready(function(){
 
-			/* 	$("#imageUploadBtn").on("click",function(){
-				$("#fileInput").click();
-			}); */
 			
+ 			$("#post").on("click", function(){
+				
+				let val = $("#post").val();
+				let content = $("#comment-content").val();
+			
+				
+
+ 			});
+			
+			
+				
+				
+				
+				
+				
+			$(".heartBtn").on("click",function(){
+				
+				//해당하는 버튼에 대응되는 post id를 얻어와야 한다.
+				let id = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get"
+					, url : "/post/like"
+					, data:{"postId":id}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						} else{
+							alert("좋아요 실패");
+						}
+						
+					}
+					,error:function(){
+						alert("좋아요 에러");
+					}
+				});
+				
+				
+			});
 			
 			
 			$("#uploadBtn").on("click",function(){

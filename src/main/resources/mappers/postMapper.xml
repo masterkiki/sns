@@ -40,5 +40,22 @@
 			
 	</select>
 	
+	<insert id="getLike" parameterType="map">
+		INSERT INTO
+			`like`
+		(
+			`userId`
+			,`postId`
+			, `createdAt`
+		)
+		VALUE
+		(
+			#{userId}
+			, #{postId}
+			, now()
+		)
+		
+		
+	</insert>
 	
 </mapper>

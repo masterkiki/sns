@@ -58,4 +58,9 @@ public class PostBO {
 		return postDetailList;
 	
 	}
+	
+	
+	public int addLike(int userId,int postId) {
+		return postDAO.getLike(userId, postId);	
+	}
 }
