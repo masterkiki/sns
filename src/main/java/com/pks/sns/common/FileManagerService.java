@@ -62,5 +62,46 @@ public static final String FILE_UPLOAD_PATH = "C:\\pks\\springProject\\upload\\i
 		
 		return "/images" + directoryName + file.getOriginalFilename();
 	}
+	
+	
+	// 파일 삭제 메소드
+		public static boolean removeFile(String filePath) {  ///images/2_1676378311769/30424_20492_2048.jpg
+			// 삭제 경로  /images 를 제거 하고
+			// 실제 파일 저장 경로에 이어 붙여준다.
+			// C:\\pks\\springProject\\upload\\images/2_1676378311769/30424_20492_2048.jpg
+			
+			String realFilePath= FILE_UPLOAD_PATH + filePath.replace("/images", "");
+			Path path = Paths.get(realFilePath);
+			 
+			// 삭제전에 파일이 존재하는지 확인하고 지워야한다
+			if(Files.exists(path)) {
+				try {
+					Files.delete(path);
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+					
+					return false;
+				}
+			}
+			
+			// C:\\pks\\springProject\\upload\\images/2_1676378311769/30424_20492_2048.jpg
+			// 디렉토리 경로
+			
+			Path dirPath = path.getParent();
+			
+			if(Files.exists(path)){
+				try {
+					Files.delete(dirPath);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+			
+			return true;
+			
+			
+		}
 
 }

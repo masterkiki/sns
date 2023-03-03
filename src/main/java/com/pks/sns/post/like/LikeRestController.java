@@ -1,39 +1,36 @@
-package com.pks.sns.post;
+package com.pks.sns.post.like;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.pks.sns.post.bo.PostBO;
+import com.pks.sns.post.like.bo.LikeBO;
 
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/post")
-public class PostRestController {
+public class LikeRestController {
 
 	@Autowired
-	private PostBO postBO;
+	private LikeBO likeBO;
 	
 	
-	@PostMapping("/write")
-	public Map<String, String> writePost(
-			@RequestParam("content") String content
-			, @RequestParam("file") MultipartFile file
-// 아래처럼 표현 가능			, HttpServletRequest request) {
+	@GetMapping("/like")
+	public Map<String, String> like(
+			@RequestParam("postId") int postId
 			, HttpSession session){
-//	이두개 합한거	HttpSession session = request.getSession();
 		
-		int userId = (Integer)session.getAttribute("userId");
+		int userId =  (Integer)session.getAttribute("userId");
 		
-		int count = postBO.addPost(userId ,content, file);
+		int count = likeBO.addLike(userId, postId);
+		
+		
 		Map<String, String> result = new HashMap<>();
 		
 		if(count == 1) {
@@ -43,16 +40,17 @@ public class PostRestController {
 		}
 		
 		return result;
-		
 	}
 	
-	@GetMapping("/delete")
-	public Map<String, String> deletePost(@RequestParam("postId") int postId
-			, HttpSession session){
+	
+	@GetMapping("/unlike")
+	public Map<String, String> unlike(
+			@RequestParam("postId") int postId
+			, HttpSession session) {
 		
 		int userId = (Integer)session.getAttribute("userId");
 		
-		int count = postBO.deletePost(postId , userId);
+		int count = likeBO.deleteLike(postId, userId);
 		
 		Map<String, String> result = new HashMap<>();
 		
@@ -62,7 +60,6 @@ public class PostRestController {
 			result.put("result", "fail");
 		}
 		return result;
-		
 	}
-
+	
 }

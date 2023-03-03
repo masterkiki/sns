@@ -35,12 +35,12 @@
 						<input type="password" class="form-control mt-2" placeholder="비밀번호 확인" id="passwordConfirmInput"> 						
 						<input type="text" class="form-control mt-2" placeholder="이름" id="nameInput"> 						
 						<input type="text" class="form-control mt-2" placeholder="이메일" id="emailInput"> 						
-						<button type="button" class="btn btn-info btn-block mt-2" id="signUpBtn">로그인</button>
+						<button type="button" class="btn btn-info btn-block mt-2" id="signUpBtn">가입하기</button>
 					</div>
 				</div>
 				<div class="signup mt-4 d-flex justify-content-center align-items-center">
 					<div class="signup-box text-center">
-						<label>계정이 없으신가요?</label><a href="#" class="text-info font-weight-bold">가입하기</a>
+						<label>계정이 있으신가요?</label><a href="/snsuser/signin/view" class="text-info font-weight-bold">로그인</a>
 					</div>
 				</div>
 			</div>

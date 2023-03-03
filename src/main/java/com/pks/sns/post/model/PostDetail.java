@@ -1,5 +1,9 @@
 package com.pks.sns.post.model;
 
+import java.util.List;
+
+import com.pks.sns.post.comment.model.CommentDetail;
+
 public class PostDetail {
 	
 	private int id;
@@ -7,6 +11,31 @@ public class PostDetail {
 	private String userName;
 	private String content;
 	private String imagePath;
+	private int likeCount;
+	private boolean isLike;
+	private List<CommentDetail> commentList;
+	
+	
+	
+	
+	public List<CommentDetail> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<CommentDetail> commentList) {
+		this.commentList = commentList;
+	}
+	public boolean isLike() {
+		return isLike;
+	}
+	public void setLike(boolean isLike) {
+		this.isLike = isLike;
+	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
 	public int getId() {
 		return id;
 	}

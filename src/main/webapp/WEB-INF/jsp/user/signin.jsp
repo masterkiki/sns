@@ -35,7 +35,7 @@
 				</div>
 				<div class="signup mt-4 d-flex justify-content-center align-items-center">
 					<div class="signup-box text-center">
-						<label>계정이 없으신가요?</label><a href="#" class="text-info font-weight-bold">가입하기</a>
+						<label>계정이 없으신가요?</label><a href="/snsuser/signup/view" class="text-info font-weight-bold">가입하기</a>
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,7 @@
 			
 			<%-- 세션에 "userId" 값이 저장되어 있으면 로그인된 상태 --%>
 			<c:if test="${not empty userId }">
-				<div class="mr-3">${userName } <a href="/snsuser/signin/view">로그아웃</a></div>
+				<div class="mr-3">${userName } <a href="/snsuser/signout">로그아웃</a></div>
 			</c:if>
 		</header>
 		<hr>

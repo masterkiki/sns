@@ -40,22 +40,31 @@
 			
 	</select>
 	
-	<insert id="getLike" parameterType="map">
-		INSERT INTO
-			`like`
-		(
-			`userId`
-			,`postId`
+	
+	<select id="selectPostByPostId" resultType="com.pks.sns.post.model.Post">
+		SELECT
+			`id`
+			, `userId`
+			, `content`
+			, `imagePath`
 			, `createdAt`
-		)
-		VALUE
-		(
-			#{userId}
-			, #{postId}
-			, now()
-		)
-		
-		
-	</insert>
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+	
+	</select>
+	
+	
+	
+	
+	<delete id="deletePost" parameterType="map">
+		DELETE FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	</delete>
 	
 </mapper>

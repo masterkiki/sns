@@ -18,7 +18,11 @@ public interface PostDAO {
 	
 	public List<Post> selectPost();
 	
-	public int getLike(
-			@Param("userId") int userId
-			, @Param("postId") int postId);
+	
+	public Post	selectPostByPostId(@Param("postId") int postId);
+	
+	public int deletePost(
+			@Param("postId") int postId
+			, @Param("userId") int userId);
+
 }

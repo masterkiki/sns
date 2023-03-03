@@ -50,7 +50,14 @@
 				<div class="card mt-3">
 					<div class="d-flex justify-content-between p-2">
 						<div>${post.userName }</div>
-						<i class="bi bi-three-dots"></i>
+						
+						
+						
+						<!-- 로그인한 userId와 해당 게시글 작성자의 userId가 일치하는 겨ㅑㅇ우만  more-btn을 보여줘라  -->
+						<c:if test="${userId eq post.userId }">
+							<!-- data-toggle="modal" data-target="#exampleModalCenter" -->
+							<div class="more-btn" data-toggle="modal" data-target="#moreMenuModal" data-post-id="${post.id }"><i class="bi bi-three-dots"></i></div>
+						</c:if>
 					</div>
 					
 					<div class="image-box mt-2">
@@ -58,11 +65,19 @@
 					</div>
 					
 					<div class="like-box d-flex  p-2 ">
-						<i class="bi bi-suit-heart mr-2 heartBtn" data-post-id="${post.id }"></i> 좋아요 11개
+						<c:choose>
+							<c:when test="${post.like }">
+								<i class="bi bi-heart-fill text-danger heart-fill-btn" data-post-id="${post.id }"></i>
+							</c:when>
+							<c:otherwise>
+								<i class="bi bi-suit-heart heartBtn" data-post-id="${post.id }"></i>
+							</c:otherwise>
+						</c:choose>
+						 <div class="ml-1">좋아요 ${post.likeCount }개</div>
 					</div>
 			
 					<div class=" p-2">
-						<b class="mr-2">${post.userName }</b> ${post.content }
+						<small class="mr-2 font-size-sm"><b>${post.userName }</b></small> <small>${post.content }</small>
 					</div>
 					
 					
@@ -72,80 +87,129 @@
 					<div class="comment-box p-2">
 						<div>댓글</div>
 							<hr>
-							<div><b>유재석</b> 우왕</div>							
-							<div><b>조세호</b> 우왕2</div>							
+							
+							<c:forEach var="comment" items="${post.commentList }">
+								<div><small><b>${comment.userName }</b></small> <small>${comment.comment }</small></div>							
+							</c:forEach>
 							
 							<div class="d-flex">
-								<input type="text" class="form-control" id="comment-content" value="${post.id }">
-								<button type="button" class="btn btn-info" id="post">게시</button>
+								<input type="text" class="form-control" id="commentInput${post.id }">
+								<button type="button" class="btn btn-info comment-btn" data-post-id="${post.id }" >게시</button>
 							</div>
 					</div>
 					<%-- /댓글 들 --%>
 				</div>
-				<%-- /카드 --%>
-				
 				</c:forEach>
-				
-<%-- 				카드
-				<div class="card mt-3">
-					<div class="d-flex justify-content-between p-2">
-						<div>박기석12</div>
-						<i class="bi bi-three-dots"></i>
-					</div>
-					
-					<div class="image-box mt-2">
-						<img src="https://cdn.pixabay.com/photo/2023/02/02/13/27/cat-7762887_960_720.jpg"  width="100%">
-					</div>
-					
-					<div class="like-box d-flex  p-2 ">
-						<i class="bi bi-suit-heart mr-2"></i>
-						<i class="bi bi-chat mr-2"></i> <b>좋아요 11개</b>
-					</div>
-			
-					<div class=" p-2">
-						<b class="mr-2">박기석12</b> 오늘 지하철 타고 강남을 다녀왔다.배경이
-					</div>
-					
-					
-					
-					
-					댓글 들
-					<div class="comment-box p-2">
-						<div>댓글</div>
-							<hr>
-							<div><b>유재석</b> 우왕</div>							
-							<div><b>조세호</b> 우왕2</div>							
-							
-							<div class="d-flex">
-								<input type="text" class="form-control ">
-								<button type="button" class="btn btn-info ">게시</button>
-							</div>
-					</div>
-					/댓글 들
-				</div>
-				/카드 --%>
-			</div>
-		</section>
-		
-		
-		
-		
+	
 		
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"/>
+		
+<!-- 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  		Launch demo modal
+		</button> -->
 	
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="moreMenuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body text-center">
+	        <a href="#" id="deleteBtn">삭제하기</a>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 	
 	<script>
 		$(document).ready(function(){
+			
+			$(".more-btn").on("click", function(){
+				// 해당 more-btn 태그에 있는 post-id를 모달의 a태그에 넣는다
+				let postId = $(this).data("post-id");
+				
+				// data-post-id=""
+				$("#deleteBtn").data("post-id", postId);
+			});
+			
+			
+			$("#deleteBtn").on("click", function(){
+				
+				let postId = $(this).data("post-id");
+
+				$.ajax({
+					type:"get"
+					, url:"/post/delete"
+					, data:{"postId":postId}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						} else{
+							alert("삭제 실패");
+						}
+						
+					}
+					,error:function(){
+						alert("삭제 에러")
+					}
+				});
+				
+			});
 
 			
- 			$("#post").on("click", function(){
+			$(".heart-fill-btn").on("click", function(){
+				let postId = $(this).data("post-id");
+			
+				$.ajax({
+					type:"get"
+					, url:"/post/unlike"
+					, data:{"postId":postId}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();		
+						} else{
+							alert("좋아요 취소 실패")
+						}
+					}
+					, error:function(){
+						alert("좋아요 취소 에러");
+					}
+				});
+			
+			});
+			
+ 			$(".comment-btn").on("click", function(){
 				
-				let val = $("#post").val();
-				let content = $("#comment-content").val();
+				let postId = $(this).data("post-id");			
 			
 				
-
+				
+				//let comment = $(this).prev().val();  // 형제 태그 중에 바로 전 태그를 가져온다.
+				//alert(comment);
+				
+				// 둘중 편한걸로 하면된다 위 혹은 아래
+				// id 셀렉터를 문자열 연산으로 완성
+				let comment = $("#commentInput" + postId).val();
+				
+				
+				$.ajax({
+					type:"post"
+					, url: "/post/comment/create"
+					, data:{"postId":postId, "content":comment}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						} else {
+							alert("댓글 작성 실패");
+						}
+					}
+					, error:function(){
+						alert("댓글 작성 에러")
+					}
+				});
+				
+				
+				
  			});
 			
 			

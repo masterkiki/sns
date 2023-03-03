@@ -10,7 +10,7 @@
 		(
 			`userId`
 			, `postId`
-			, `content`
+			, `comment`
 			, `createdAt`
 			, `updatedAt`
 		)
@@ -22,8 +22,31 @@
 			, now()
 			, now()
 		)
-		
 	
 	</insert>
+	
+	<select id="selectCommentList" parameterType="int" resultType="com.pks.sns.post.comment.model.Comment">
+		SELECT
+			`id`
+			, `userId`
+			, `postId`
+			, `comment`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+		ORDER BY
+			`id` DESC
+	
+	</select>
+	
+	<delete id="deleteCommentByPostId" parameterType="int">
+		DELETE FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+	</delete>
 
 </mapper>
